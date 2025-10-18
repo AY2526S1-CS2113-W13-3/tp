@@ -275,34 +275,33 @@ public class Parser {
      * Throws an InvalidEditCommandException if the input is missing, incorrectly formatted, or contains invalid flags.
      */
     private static Command parseEditCommand(String remainder) {
-        if (remainder.isEmpty() || !isValidEditCommandInput(remainder)) {
-            throw new InvalidEditCommandException("The 'edit' command requires a case number, " +
+        if (remainder.isEmpty()) {
+            throw new InvalidEditCommandException("The 'edit' command requires a case ID, " +
                     "followed by at least one flag and its value.");
         }
 
         int firstSpaceIndex = remainder.indexOf(" ");
         if (firstSpaceIndex == -1) {
-            throw new InvalidEditCommandException("Missing case number or flags in 'edit' command.");
+            throw new InvalidEditCommandException("Missing case ID or flags in 'edit' command.");
+        }
+        String caseId = remainder.substring(0, firstSpaceIndex);
+        if (!isValidCaseId(caseId)) {
+            throw new InvalidEditCommandException("Invalid caseId.");
         }
 
-        String caseNumberString = remainder.substring(0, firstSpaceIndex);
-        int caseNumberInteger = Integer.parseInt(caseNumberString);
         String replacements = remainder.substring(firstSpaceIndex + 1).trim();
-
         Map<String, String> flagValues = extractFlagValues(replacements);
+        validateRequiredFlags(flagValues);
 
-        if (flagValues == null) {
-            throw new InvalidEditCommandException("The 'edit' command requires at least one flag " +
-                    "and every flag's corresponding value.");
-        }
+        return new EditCommand(caseId, flagValues);
+    }
 
+    private static void validateRequiredFlags(Map<String, String> flagValues) {
         for (String flag : flagValues.keySet()) {
             if (!VALID_FLAGS.contains(flag)) {
-                throw new InvalidEditCommandException("The flag '" + flag + "' is not recognized.");
+                throw new IncorrectFlagException();
             }
         }
-
-        return new EditCommand(caseNumberInteger, flagValues);
     }
 
     /**
@@ -315,6 +314,22 @@ public class Parser {
     public static boolean isValidEditCommandInput(String input) {
         final String inputPattern = "^\\d+\\s+(--\\s*\\w+(?:\\s+\\S+)+)(?:\\s+--\\s*\\w+(?:\\s+\\S+)+)*$";
         return Pattern.matches(inputPattern, input.strip());
+    }
+
+    /**
+     * Checks whether the provided case ID is a valid 6-character hexadecimal string.
+     *
+     * @param caseId the case ID to validate
+     * @return {@code true} if the case ID is valid; {@code false} otherwise
+     */
+    public static boolean isValidCaseId(String caseId) {
+        if (caseId == null) {
+            return false;
+        }
+        // Regex explanation:
+        // ^ and $ → start and end of string anchors
+        // [0-9A-Fa-f]{6} → exactly 6 characters of 0-9 or A-F (any case)
+        return caseId.matches("^[0-9A-Fa-f]{6}$");
     }
 
     /**

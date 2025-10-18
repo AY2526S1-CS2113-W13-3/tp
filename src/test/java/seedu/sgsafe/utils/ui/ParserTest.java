@@ -125,11 +125,10 @@ class ParserTest {
 
     @Test
     void parseInput_validEditCommand_returnsEditCommand() {
-        Command command = Parser.parseInput("edit 1 --title NewTitle --date 2025-10-10");
+        Command command = Parser.parseInput("edit 000000 --title NewTitle --date 2025-10-10");
         assertEquals(CommandType.EDIT, command.getCommandType());
 
         EditCommand editCommand = (EditCommand) command;
-        assertEquals(1, editCommand.getCaseNumber());
 
         Map<String, String> newValues = editCommand.getNewFlagValues();
         assertEquals("NewTitle", newValues.get("title"));
@@ -138,17 +137,22 @@ class ParserTest {
 
     @Test
     void parseInput_missingFlagValue_throwsInvalidEditCommandException() {
-        assertThrows(InvalidEditCommandException.class, () -> Parser.parseInput("edit 2 --title"));
+        assertThrows(IncorrectFlagException.class, () -> Parser.parseInput("edit abc123 --date"));
     }
 
     @Test
     void parseInput_invalidFlag_throwsInvalidEditCommandException() {
-        assertThrows(InvalidEditCommandException.class, () -> Parser.parseInput("edit 3 --invalidFlag newValue"));
+        assertThrows(IncorrectFlagException.class, () -> Parser.parseInput("edit ffffff --invalidFlag newValue"));
     }
 
     @Test
-    void parseInput_missingCaseNumber_throwsInvalidEditCommandException() {
+    void parseInput_missingCaseId_throwsInvalidEditCommandException() {
         assertThrows(InvalidEditCommandException.class, () -> Parser.parseInput("edit --title newTitle"));
+    }
+
+    @Test
+    void parseInput_wrongCaseId_throwsInvalidEditCommandException() {
+        assertThrows(InvalidEditCommandException.class, () -> Parser.parseInput("edit WrongcaseId --title newTitle"));
     }
 
     // ----------- TESTS FOR CLOSE COMMANDS ----------- //

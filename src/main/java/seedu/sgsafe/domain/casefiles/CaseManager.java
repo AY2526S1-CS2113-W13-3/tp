@@ -1,10 +1,10 @@
 package seedu.sgsafe.domain.casefiles;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import seedu.sgsafe.utils.command.CloseCommand;
 import seedu.sgsafe.utils.command.DeleteCommand;
-import seedu.sgsafe.utils.command.EditCommand;
 import seedu.sgsafe.utils.ui.Display;
 
 import seedu.sgsafe.utils.exceptions.IndexOutOfBoundsException;
@@ -80,23 +80,38 @@ public class CaseManager {
     }
 
     /**
-     * Edits an existing case in the case list using the details provided in the EditCommand.
-     * The method first checks if the case number is valid, then updates the corresponding case
-     * with the new field values.
+     * Finds and returns a {@link Case} object from the case list using its unique ID.
      *
-     * @param editCommand the {@link EditCommand} containing the case number and the new values to update
+     * @param id the hexadecimal ID of the case to find
+     * @return the Case with the matching ID, or null if not found
      */
-    public static void editCase(EditCommand editCommand) {
-        int caseNumber = editCommand.getCaseNumber();
-        if (caseNumber < 1 || caseNumber > caseList.size()) {
-            Display.printMessage("Invalid case index, please try again.");
+    public static Case getCaseById(String id) {
+        return caseList.stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Edits the details of an existing {@link Case} identified by its unique case ID.
+     * <p>
+     * This method first retrieves the corresponding {@link Case} object using
+     * {@link #getCaseById(String)}. If a matching case is found, it applies the updates
+     * provided in the {@code newFlagValues} map by calling {@link Case#update(Map)}.
+     * Only the fields included in the map will be modified; all others remain unchanged.
+     *
+     * @param caseId        the hexadecimal ID of the case to edit
+     * @param newFlagValues a map containing field names and their updated values
+     *                      (e.g., "title", "date", "info", "victim", "officer")
+     */
+    public static void editCase(String caseId, Map<String, String> newFlagValues) {
+        Case caseToEdit = getCaseById(caseId);
+        if (caseToEdit == null) {
+            Display.printMessage("Invalid case ID, please try again.");
             return;
         }
-        int caseIndex = caseNumber - 1;
-        Case targetCase = caseList.get(caseIndex);
-
-        targetCase.update(editCommand.getNewFlagValues());
-        Display.printMessage("Case edited:\n" + targetCase.getDisplayLine());
+        caseToEdit.update(newFlagValues);
+        Display.printMessage("Case edited:\n" + caseToEdit.getDisplayLine());
     }
 
     /**
