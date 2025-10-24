@@ -3,6 +3,7 @@ package seedu.sgsafe.domain.casefiles;
 import seedu.sgsafe.domain.casefiles.type.CaseType;
 import seedu.sgsafe.domain.casefiles.type.CaseCategory;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -43,6 +44,12 @@ public abstract class Case {
     /** Indicates whether a case has been deleted. */
     private boolean isDeleted;
 
+    /** Metadata timestamp for auditing of when the case is created. */
+    private final LocalDateTime createdAt;
+
+    /** Metadata timestamp for auditing of when the case is updated. */
+    private LocalDateTime updatedAt;
+
     /**
      * Constructs a {@code Case} object with the specified details.
      * The case is initialized as closed by default.
@@ -63,6 +70,8 @@ public abstract class Case {
         this.officer = officer;
         this.isOpen = true;
         this.isDeleted = false;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     /**
@@ -143,6 +152,7 @@ public abstract class Case {
 
     public void setDeleted() {
         this.isDeleted = true;
+        this.updatedAt = LocalDateTime.now();
     }
 
     /**
@@ -193,7 +203,9 @@ public abstract class Case {
             "Date    : " + (date == null ? "" : date),
             "Info    : " + truncatedInfo,
             "Victim  : " + (victim == null ? "" : victim),
-            "Officer : " + (officer == null ? "" : officer)
+            "Officer : " + (officer == null ? "" : officer),
+            "Created at: " + createdAt.toString(),
+            "Updated at: " + updatedAt.toString()
         };
     }
 
@@ -214,10 +226,12 @@ public abstract class Case {
 
     public void setClosed() {
         this.isOpen = false;
+        updatedAt = LocalDateTime.now();
     }
 
     public void setOpen() {
         this.isOpen = true;
+        updatedAt = LocalDateTime.now();
     }
 
     public boolean isOpen() {
@@ -246,5 +260,6 @@ public abstract class Case {
         if (newValues.containsKey("officer")) {
             this.officer = newValues.get("officer");
         }
+        this.updatedAt = LocalDateTime.now();
     }
 }
