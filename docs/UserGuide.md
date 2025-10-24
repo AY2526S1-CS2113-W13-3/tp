@@ -50,7 +50,7 @@ organised digital workflow that enhances operational efficiency for the public s
 > * Optional parameters are enclosed in square brackets.\
     >   e.g., `--title TITLE [--victim VICTIM]` means the victim parameter is optional.
 > * The double-dash `--` is a reserved prefix used to identify flags, so it cannot be used as part of an input value.
-
+> * You cannot use the character | in your input as well as it is used in the save file format.
 ---
 
 ### Adding a case: `add`

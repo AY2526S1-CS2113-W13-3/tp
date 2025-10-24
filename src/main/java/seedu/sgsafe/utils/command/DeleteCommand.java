@@ -2,6 +2,7 @@ package seedu.sgsafe.utils.command;
 
 import seedu.sgsafe.domain.casefiles.CaseManager;
 import seedu.sgsafe.utils.exceptions.CaseNotFoundException;
+import seedu.sgsafe.utils.storage.Storage;
 import seedu.sgsafe.utils.ui.Display;
 
 /**
@@ -20,7 +21,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Storage storage) {
         try {
             String caseToDelete = CaseManager.deleteCase(this.caseId);
             Display.printMessage("Case Deleted: " + caseToDelete);

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import seedu.sgsafe.domain.casefiles.CaseManager;
 import seedu.sgsafe.utils.exceptions.CaseNotFoundException;
+import seedu.sgsafe.utils.storage.Storage;
 import seedu.sgsafe.utils.ui.Display;
 
 /**
@@ -31,10 +32,11 @@ public class EditCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Storage storage) {
         try {
             String displayLine = CaseManager.editCase(caseId, newFlagValues);
             Display.printMessage("Case edited:", displayLine);
+            storage.saveToFile();
         } catch (CaseNotFoundException e) {
             Display.printMessage(e.getMessage());
         }

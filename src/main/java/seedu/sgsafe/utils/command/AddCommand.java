@@ -2,6 +2,7 @@ package seedu.sgsafe.utils.command;
 
 import seedu.sgsafe.domain.casefiles.Case;
 import seedu.sgsafe.domain.casefiles.CaseManager;
+import seedu.sgsafe.utils.storage.Storage;
 import seedu.sgsafe.utils.ui.Display;
 
 import java.util.logging.Logger;
@@ -98,10 +99,11 @@ public class AddCommand extends Command {
 
     // @@author zhengjie2002
     @Override
-    public void execute() {
+    public void execute(Storage storage) {
         String id = generateHexId();
         Case newCase = new Case(id, caseTitle, caseDate, caseInfo, caseVictim, caseOfficer);
         CaseManager.addCase(newCase);
         Display.printMessage("New case added:", newCase.getDisplayLine());
+        storage.saveToFile();
     }
 }

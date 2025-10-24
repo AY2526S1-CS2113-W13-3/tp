@@ -55,6 +55,30 @@ public class Case {
     }
 
     /**
+     * Constructs a {@code Case} object with the specified details.
+     *
+     * @param id        the case ID in hex form
+     * @param title     the title or summary of the case
+     * @param date      the date the case was recorded or occurred
+     * @param info      additional information or notes about the case
+     * @param victim    the name of the victim involved
+     * @param officer   the name of the officer assigned
+     * @param isOpen    a boolean describing if the case is open or closed
+     * @param isDeleted a boolean describing if the case is deleted
+     */
+    public Case(String id, String title, String date, String info,
+                String victim, String officer, boolean isOpen, boolean isDeleted) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.info = info;
+        this.victim = victim;
+        this.officer = officer;
+        this.isOpen = isOpen;
+        this.isDeleted = isDeleted;
+    }
+
+    /**
      * Retrieves the title or summary of the case.
      *
      * @return the title of the case
@@ -215,5 +239,26 @@ public class Case {
         if (newValues.containsKey("officer")) {
             this.officer = newValues.get("officer");
         }
+    }
+
+    /**
+     * Converts this object's data fields into a single comma-separated string suitable for saving.
+     * <p>
+     * If any string field (e.g. {@code title}, {@code date}, etc.) is {@code null}, it will be replaced
+     * with an empty string in the output. The {@code isDeleted} field is represented as {@code "1"} if true
+     * and {@code "0"} if false.
+     * </p>
+     *
+     * @return a formatted string containing all of this object's field values
+     */
+    public String toSaveString() {
+        return "id:" + this.id
+                + "|title:" + (this.title == null ? "" : this.title)
+                + "|date:" + (this.date == null ? "" : this.date)
+                + "|info:" + (this.info == null ? "" : this.info)
+                + "|victim:" + (this.victim == null ? "" : this.victim)
+                + "|officer:" + (this.officer == null ? "" : this.officer)
+                + "|isDeleted:" + (this.isDeleted ? "1" : "0")
+                + "|isOpen:" + (this.isOpen ? "1" : "0");
     }
 }
