@@ -17,4 +17,6 @@ edit 000001 --food Robbery
 close
 list
 list --status closed
+add --category murder --title Shop Theft \-- jewellery --info Clementi --date 05-06-2022
+list
 bye

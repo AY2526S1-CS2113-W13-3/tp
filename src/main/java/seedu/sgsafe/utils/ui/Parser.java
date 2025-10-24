@@ -52,6 +52,9 @@ public class Parser {
     // Maximum allowed length for any input value
     private static final int MAX_INPUT_LENGTH = 5000;
 
+    // Placeholder for escaped flag sequences
+    private static final String ESCAPED_FLAG_PLACEHOLDER = "\u0000ESCAPED_FLAG\u0000";
+
     /**
      * Parses raw user input into a {@link Command} object.
      * <p>
@@ -303,6 +306,7 @@ public class Parser {
      * <p>
      * The input is split based on the defined flag separator regex, and each part is processed
      * to isolate the flag name and its value. The results are stored in a map.
+     * \-- is used as an escape character for -- to use -- in body text.
      *
      * @param input the portion of the input containing flags and their values
      * @return a map of flag names with their corresponding values
@@ -311,7 +315,10 @@ public class Parser {
      */
     private static Map<String, String> extractFlagValues(String input) {
 
-        String[] parts = input.split(FLAG_SEPARATOR_REGEX);
+        // Replace \-- with a placeholder
+        String escapedInput = input.replace("\\--", ESCAPED_FLAG_PLACEHOLDER);
+
+        String[] parts = escapedInput.split(FLAG_SEPARATOR_REGEX);
         Map<String, String> flagValues = new HashMap<>();
 
         for (String part : parts) {
@@ -332,6 +339,9 @@ public class Parser {
             // Then we separate the flag from its value.
             String flag = trimmedPart.substring(0, spaceIndex).trim();
             String value = trimmedPart.substring(spaceIndex + 1).trim();
+
+            // Replace the placeholder back with --
+            value = value.replace(ESCAPED_FLAG_PLACEHOLDER, "--");
 
             if(value.length() > MAX_INPUT_LENGTH){
                 logger.log(Level.WARNING, "Input exceeds character limit");
