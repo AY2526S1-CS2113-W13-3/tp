@@ -61,12 +61,15 @@
 	[O] #000001 [Traffic accident] 05-06-2018 Robbery
 	____________________________________________________________
 	____________________________________________________________
-	The 'edit' command requires a case ID followed by at least one flag and its value.
+	Case found: [O] #000001 [Traffic accident] 05-06-2018 Robbery
+	
+	Fields that can be edited: --title, --date, --info, --victim, --officer, --vehicleType, --vehiclePlate, --roadName
+	
+	Usage: edit 000001 --<flag> <value>
+	Example: edit 000001 --location home --date 2024-01-01
 	____________________________________________________________
 	____________________________________________________________
-	Your command format is incorrect.
-	There is an incorrect usage of flag. Use flags like --title TITLE
-	Please see which flag is required for this command.
+	The case was not edited due to invalid flags: food
 	____________________________________________________________
 	____________________________________________________________
 	Your close command format is incorrect.

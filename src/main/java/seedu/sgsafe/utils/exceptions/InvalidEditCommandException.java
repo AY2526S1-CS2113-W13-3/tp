@@ -1,10 +1,11 @@
 package seedu.sgsafe.utils.exceptions;
 
 public class InvalidEditCommandException extends InvalidCommandException {
-    private static final String ERROR_MESSAGE = "The 'edit' command requires a case ID followed" +
-            " by at least one flag and its value.";
+    private static final String ERROR_MESSAGE = "The 'edit' command requires a valid case ID. " +
+            "Flags are optional but must be paired with their new values.";
+    private static final String TIP = "For example, try: \"edit 000000\" or \"edit 000000 --title new title \"";
 
     public InvalidEditCommandException() {
-        super(ERROR_MESSAGE);
+        super(ERROR_MESSAGE, TIP);
     }
 }

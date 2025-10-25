@@ -6,6 +6,7 @@ import seedu.sgsafe.utils.command.CloseCommand;
 import seedu.sgsafe.utils.command.Command;
 import seedu.sgsafe.utils.command.ListCommand;
 import seedu.sgsafe.utils.command.EditCommand;
+import seedu.sgsafe.utils.command.EditPromptCommand;
 import seedu.sgsafe.utils.command.DeleteCommand;
 
 import seedu.sgsafe.utils.command.OpenCommand;
@@ -350,8 +351,13 @@ public class Parser {
     }
 
     /**
-     * Parses the 'edit' command input, validates its format, and constructs an EditCommand object.
-     * Throws an InvalidEditCommandException if the input is missing, incorrectly formatted, or contains invalid flags.
+     * Parses the 'edit' command input.
+     * <p>
+     * Supports two modes:
+     * <ol>
+     *   <li>{@code edit <caseId>} - Shows valid flags for the case</li>
+     *   <li>{@code edit <caseId> --flag value} - Directly edits the case</li>
+     * </ol>
      */
     private static Command parseEditCommand(String remainder) {
         if (remainder.isEmpty()) {
@@ -359,22 +365,30 @@ public class Parser {
         }
 
         int firstSpaceIndex = remainder.indexOf(" ");
+
+        // Case 1: Only case ID is provided (e.g. "edit 000000")
         if (firstSpaceIndex == -1) {
-            throw new InvalidEditCommandException();
+            if (!validator.isValidCaseId(remainder)) {
+                throw new InvalidCaseIdException();
+            }
+            return new EditPromptCommand(remainder);
         }
+
+        // Case 2: Flags provided together with case ID (e.g. "edit 000000 --location 123 Street")
         String caseId = remainder.substring(0, firstSpaceIndex);
         if (!validator.isValidCaseId(caseId)) {
             throw new InvalidCaseIdException();
         }
 
         String replacements = remainder.substring(firstSpaceIndex + 1).trim();
-        Map<String, String> flagValues = extractFlagValues(replacements);
 
-        if (!validator.haveValidFlags(flagValues, VALID_FLAGS)){
-            throw new IncorrectFlagException();
+        // Check if replacements start with --
+        if (replacements.startsWith("--")) {
+            Map<String, String> flagValues = extractFlagValues(replacements);
+            return new EditCommand(caseId, flagValues);
+        } else {
+            throw new InvalidEditCommandException();
         }
-
-        return new EditCommand(caseId, flagValues);
     }
 
     /**

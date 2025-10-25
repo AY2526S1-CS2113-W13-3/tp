@@ -14,6 +14,8 @@ public class Validator {
 
     // Logger for logging validation events
     private static final Logger logger = Logger.getLogger(Validator.class.getName());
+    // Constant for case ID validation pattern
+    private static final String CASE_ID_REGEX = "^[0-9A-Fa-f]{6}$";
 
     //@@author shennontay
 
@@ -70,6 +72,8 @@ public class Validator {
 
     /**
      * Checks whether the provided case ID is a valid 6-character hexadecimal string.
+     * <p>
+     * A valid case ID must be exactly six hexadecimal characters (0–9, A–F, a–f).
      *
      * @param caseId the case ID to validate
      * @return {@code true} if the case ID is valid; {@code false} otherwise
@@ -78,9 +82,6 @@ public class Validator {
         if (caseId == null) {
             return false;
         }
-        // Regex explanation:
-        // ^ and $ → start and end of string anchors
-        // [0-9A-Fa-f]{6} → exactly 6 characters of 0-9 or A-F (any case)
-        return caseId.matches("^[0-9A-Fa-f]{6}$");
+        return caseId.matches(CASE_ID_REGEX);
     }
 }

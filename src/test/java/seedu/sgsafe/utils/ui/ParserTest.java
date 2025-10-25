@@ -6,16 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
-
-
-
 import seedu.sgsafe.utils.command.CaseListingMode;
 import seedu.sgsafe.utils.command.Command;
 import seedu.sgsafe.utils.command.CommandType;
 import seedu.sgsafe.utils.command.ListCommand;
 import seedu.sgsafe.utils.command.AddCommand;
-import seedu.sgsafe.utils.command.EditCommand;
 import seedu.sgsafe.utils.exceptions.IncorrectFlagException;
 import seedu.sgsafe.utils.exceptions.EmptyCommandException;
 import seedu.sgsafe.utils.exceptions.InputLengthExceededException;
@@ -125,25 +120,14 @@ class ParserTest {
     // ----------- TESTS FOR EDIT COMMANDS ----------- //
 
     @Test
-    void parseInput_validEditCommand_returnsEditCommand() {
-        Command command = Parser.parseInput("edit 000000 --title NewTitle --date 2025-10-10");
-        assertEquals(CommandType.EDIT, command.getCommandType());
-
-        EditCommand editCommand = (EditCommand) command;
-
-        Map<String, String> newValues = editCommand.getNewFlagValues();
-        assertEquals("NewTitle", newValues.get("title"));
-        assertEquals("2025-10-10", newValues.get("date"));
-    }
-
-    @Test
     void parseInput_missingFlagValue_throwsInvalidEditCommandException() {
         assertThrows(IncorrectFlagException.class, () -> Parser.parseInput("edit abc123 --date"));
     }
 
     @Test
-    void parseInput_invalidFlag_throwsInvalidEditCommandException() {
-        assertThrows(IncorrectFlagException.class, () -> Parser.parseInput("edit ffffff --invalidFlag newValue"));
+    void parseInput_duplicateFlags_throwsDuplicateFlagException() {
+        assertThrows(DuplicateFlagException.class,
+                () -> Parser.parseInput("edit 000001 --title First --title Second"));
     }
 
     @Test

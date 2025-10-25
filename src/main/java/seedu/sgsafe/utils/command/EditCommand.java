@@ -4,6 +4,7 @@ import java.util.Map;
 
 import seedu.sgsafe.domain.casefiles.CaseManager;
 import seedu.sgsafe.utils.exceptions.CaseNotFoundException;
+import seedu.sgsafe.utils.exceptions.IncorrectFlagException;
 import seedu.sgsafe.utils.ui.Display;
 
 /**
@@ -25,11 +26,6 @@ public class EditCommand extends Command {
         this.newFlagValues = newFlagValues;
     }
 
-    // Returns the map of new field values
-    public Map<String, String> getNewFlagValues() {
-        return newFlagValues;
-    }
-
     @Override
     public void execute() {
         try {
@@ -37,6 +33,9 @@ public class EditCommand extends Command {
             Display.printMessage("Case edited:", displayLine);
         } catch (CaseNotFoundException e) {
             Display.printMessage(e.getMessage());
+        } catch (IncorrectFlagException e) {
+            Display.printMessage("The case was not edited due to invalid flags: " +
+                    String.join(", ", e.getInvalidFlags()));
         }
     }
 }
