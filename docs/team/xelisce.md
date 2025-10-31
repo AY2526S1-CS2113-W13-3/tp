@@ -48,12 +48,20 @@ Given below are my contributions to the project.
         * Provided examples for both verbose and summary modes.
         * Clarified expected output structure and optional field behavior.
     * **Developer Guide**:
-        * Documented implementation details of `ListCommand`.
-        * Explained formatting logic, conditional field inclusion, and category integration.
-        * Described rationale for soft-deletion filtering and test coverage strategy.
+      * **Architecture & Sequence Diagrams**:
+          * Designed and documented the **overall Architecture Diagram** for SGSafe, showing UI, Logic, Model, Storage, Commons, and Main.
+          * Created **sequence diagram boilerplates** for both parsing and execution phases.
+          * Established a **template for execution‑phase sequence diagrams**, enabling consistent documentation of future commands (`AddCommand`, `DeleteCommand`, etc.).
+      * **Model Component Section**:
+          * Authored the Model component write‑up, detailing responsibilities of `CaseManager` and `Case`.
+          * Explained integrity constraints (unique IDs, valid statuses) and query/filtering support.
+    * Added comprehensive Javadoc comments for all core classes and methods I authored:
+        * `Display`, `Parser`, `Validator`, `Command`, `ListCommand`, `Case`, and `CaseManager`.
+    * Documented formatting logic, flag behavior, and conditional field inclusion.
+    * Ensured all public methods have clear descriptions, parameter annotations, and example outputs where relevant.
 
 * **Community**:
-    * Reviewed PRs (with non-trivial review comments). Examples: [#18](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/18), [#27](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/27), [#37](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/37)
+    * Reviewed PRs (with non-trivial review comments). Examples: [#18](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/18), [#27](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/27), [#37](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/37), [#132](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/132), [#138](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/138)
     * Replied to feedback on my own PRs and incorporated suggestions from teammates. [#8](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/8), [#9](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/9), [#11](https://github.com/AY2526S1-CS2113-W13-3/tp/pull/11)
     * Identified bugs: [Example Bug Report](https://github.com/AY2526S1-CS2113-W13-3/tp/issues/72)
     * Provided feedback on teammates' command structure, formatting logic, and test clarity.
