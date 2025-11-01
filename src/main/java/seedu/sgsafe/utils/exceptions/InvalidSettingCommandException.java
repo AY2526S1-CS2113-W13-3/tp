@@ -9,7 +9,7 @@ public class InvalidSettingCommandException extends InvalidCommandException {
     private static final String ERROR_MESSAGE = "Your setting command format is incorrect.";
     private static final String CORRECT_FORMAT_MESSAGE = "The correct format for a setting command is";
     private static final String EXAMPLE_COMMAND = "setting --type TYPE --value VALUE";
-    private static final String TIP = "TYPE should either be dateinput or dateoutput.";
+    private static final String TIP = "TYPE should either be dateinput or dateoutput or timestampoutput.";
     private static final String TIP2 = "VALUE should be a valid date format pattern that java supports.";
 
     /**

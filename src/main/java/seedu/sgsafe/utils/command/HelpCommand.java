@@ -178,7 +178,7 @@ public class HelpCommand extends Command {
                     "\t\tsetting --type dateoutput --value dd/MM/yyyy\n" +
                     "\n" +
                     "\tNotes:\n" +
-                    "\t\t• TYPE must be either 'dateinput' or 'dateoutput'.\n" +
+                    "\t\t• TYPE must be either 'dateinput' or 'dateoutput' or 'timestampoutput'.\n" +
                     "\t\t• VALUE must be a valid Java DateTimeFormatter pattern.\n" +
                     "\t\t• Default format is dd/MM/yyyy.\n" +
                     "\t_______________________________________________________________________________________" +
