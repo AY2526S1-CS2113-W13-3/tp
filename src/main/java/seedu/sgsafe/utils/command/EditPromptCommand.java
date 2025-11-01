@@ -49,7 +49,7 @@ public class EditPromptCommand extends Command {
             );
             
         } catch (CaseNotFoundException e) {
-            Display.printMessage(e.getMessage());
+            Display.printMessage(e.getErrorMessage());
         }
     }
 }

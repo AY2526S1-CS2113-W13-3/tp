@@ -9,6 +9,7 @@ import seedu.sgsafe.utils.exceptions.CaseCannotBeEditedException;
 import seedu.sgsafe.utils.exceptions.CaseAlreadyOpenException;
 import seedu.sgsafe.utils.exceptions.CaseNotFoundException;
 import seedu.sgsafe.utils.exceptions.IncorrectFlagException;
+import seedu.sgsafe.utils.exceptions.InvalidEditFlagException;
 
 /**
  * Manages the collection of {@link Case} objects in the SGSafe system.
@@ -101,7 +102,7 @@ public class CaseManager {
      * @param newFlagValues map of field names to new values
      * @return the updated case’s display line
      * @throws CaseNotFoundException   if no case with the given ID exists
-     * @throws IncorrectFlagException  if any flags in {@code newFlagValues} are invalid
+     * @throws InvalidEditFlagException  if any flags in {@code newFlagValues} are invalid
      */
     public static String editCase(String caseId, Map<String, Object> newFlagValues)
             throws CaseNotFoundException, IncorrectFlagException {
@@ -111,7 +112,6 @@ public class CaseManager {
             throw new CaseNotFoundException(caseId);
         }
 
-        // Chack if case is closed
         if (!caseToEdit.isOpen()) {
             throw new CaseCannotBeEditedException(caseId);
         }
@@ -119,7 +119,7 @@ public class CaseManager {
         // Validate flags before updating
         List<String> invalidFlags = getInvalidEditFlags(caseToEdit, newFlagValues);
         if (!invalidFlags.isEmpty()) {
-            throw new IncorrectFlagException(invalidFlags);
+            throw new InvalidEditFlagException(invalidFlags, caseId);
         }
 
         //Update and return the display line

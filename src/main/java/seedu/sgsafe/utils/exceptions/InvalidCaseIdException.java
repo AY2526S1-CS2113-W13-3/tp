@@ -9,7 +9,7 @@ package seedu.sgsafe.utils.exceptions;
  * hexadecimal digits (0–9, A–F).
  */
 public class InvalidCaseIdException extends InvalidCommandException {
-    private static final String ERROR_MESSAGE = "The case ID format is incorrect.";
+    private static final String ERROR_MESSAGE = "The case ID is missing or the format is incorrect.";
     private static final String TIP = "Case ID should be exactly 6 characters of 0-9 or A-F.";
 
     /**

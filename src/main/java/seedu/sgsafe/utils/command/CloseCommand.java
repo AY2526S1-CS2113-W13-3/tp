@@ -26,7 +26,7 @@ public class CloseCommand extends Command {
             String displayLine = CaseManager.closeCase(caseId);
             Display.printMessage("Case closed:", displayLine);
         } catch (CaseNotFoundException e) {
-            Display.printMessage(e.getMessage());
+            Display.printMessage(e.getErrorMessage());
         }
     }
 }

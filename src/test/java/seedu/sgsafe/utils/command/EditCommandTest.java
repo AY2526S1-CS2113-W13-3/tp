@@ -15,7 +15,8 @@ import java.util.Map;
 
 import seedu.sgsafe.domain.casefiles.Case;
 import seedu.sgsafe.domain.casefiles.CaseManager;
-import seedu.sgsafe.utils.exceptions.IncorrectFlagException;
+import seedu.sgsafe.domain.casefiles.type.violent.RobberyCase;
+import seedu.sgsafe.utils.exceptions.InvalidEditFlagException;
 
 public class EditCommandTest {
 
@@ -25,7 +26,7 @@ public class EditCommandTest {
     void setUp() {
         CaseManager.getCaseList().clear();
         LocalDate date = LocalDate.of(2025, 10, 10);
-        sampleCase = new Case("000001", "Robbery", date, "Suspect armed", "Alice", "Officer Tan") {};
+        sampleCase = new RobberyCase("000001", "Robbery", date, "Suspect armed", "Alice", "Officer Tan") {};
         CaseManager.addCase(sampleCase);
     }
 
@@ -71,9 +72,9 @@ public class EditCommandTest {
     }
 
     @Test
-    void execute_invalidFlags_throwsIncorrectFlagException() {
+    void execute_invalidFlags_throwsInvalidEditFlagException() {
         Map<String, Object> updates = Map.of("invalidFlag", "New Value");
-        assertThrows(IncorrectFlagException.class, () -> CaseManager.editCase("000001", updates));
+        assertThrows(InvalidEditFlagException.class, () -> CaseManager.editCase("000001", updates));
     }
 
     @Test

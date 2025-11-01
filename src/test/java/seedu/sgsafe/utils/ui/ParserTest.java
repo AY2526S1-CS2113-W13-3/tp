@@ -28,6 +28,7 @@ import seedu.sgsafe.utils.exceptions.InvalidEditCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidCloseCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidDeleteCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidFormatStringException;
+import seedu.sgsafe.utils.exceptions.InvalidIntegerException;
 import seedu.sgsafe.utils.exceptions.InvalidReadCommandException;
 
 import seedu.sgsafe.utils.exceptions.InvalidOpenCommandException;
@@ -168,13 +169,13 @@ class ParserTest {
     }
 
     @Test
-    void parseInput_nonIntegerValueForSpeedLimit_throwsInvalidEditCommandException() {
-        assertThrows(InvalidEditCommandException.class, () -> Parser.parseInput("edit 000001 --speed-limit fast"));
+    void parseInput_nonIntegerValueForSpeedLimit_throwsInvalidIntegerException() {
+        assertThrows(InvalidIntegerException.class, () -> Parser.parseInput("edit 000001 --speed-limit fast"));
     }
 
     @Test
-    void parseInput_negativeValueForVictimNumber_throwsInvalidEditCommandException() {
-        assertThrows(InvalidEditCommandException.class, () -> Parser.parseInput("edit 000001 --number-of-victims -50"));
+    void parseInput_negativeValueForVictimNumber_throwsInvalidIntegerException() {
+        assertThrows(InvalidIntegerException.class, () -> Parser.parseInput("edit 000001 --number-of-victims -50"));
     }
 
     // ----------- TESTS FOR CLOSE COMMANDS ----------- //

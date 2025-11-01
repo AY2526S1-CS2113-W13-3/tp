@@ -28,6 +28,7 @@ import seedu.sgsafe.utils.exceptions.InvalidEditCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidFindCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidFormatStringException;
 import seedu.sgsafe.utils.exceptions.InvalidHelpCommandException;
+import seedu.sgsafe.utils.exceptions.InvalidIntegerException;
 import seedu.sgsafe.utils.exceptions.InvalidListCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidAddCommandException;
 import seedu.sgsafe.utils.exceptions.InvalidOpenCommandException;
@@ -435,7 +436,8 @@ public class Parser {
             Map<String, Object> typedFlagValues = convertFlagValueTypes(flagValues);
             return new EditCommand(caseId, typedFlagValues);
         } else {
-            throw new InvalidEditCommandException();
+            logger.log(Level.WARNING, "Incorrect flag usage detected");
+            throw new IncorrectFlagException();
         }
     }
 
@@ -443,7 +445,8 @@ public class Parser {
      * Converts raw flag values from strings to their appropriate types based on flag names.
      * @param rawValues map of flag names and their string values as input by the user
      * @return map of flag names and their values converted to appropriate types
-     * @throws InvalidEditCommandException if a value cannot be converted to the expected type
+     * @throws InvalidDateInputException if a date value cannot be parsed using the system input date format
+     * @throws InvalidIntegerException if a numerical flag value is non-numeric or negative
      */
     public static Map<String, Object> convertFlagValueTypes(Map<String, String> rawValues) {
         logger.fine("Starting flag value type conversion.");
@@ -477,13 +480,13 @@ public class Parser {
                     Integer intValue = Integer.parseInt(value);
                     if (intValue < 0) {
                         logger.log(Level.WARNING,"Value for flag '" + flag + "' is negative: " + intValue);
-                        throw new InvalidEditCommandException();
+                        throw new InvalidIntegerException(flag);
                     }
                     typedValues.put(flag, intValue);
                 } catch (NumberFormatException e) {
                     logger.log(Level.WARNING, "Failed to parse integer from non-numeric string '" + value
                             + "' for flag '" + flag + "'.");
-                    throw new InvalidEditCommandException();
+                    throw new InvalidIntegerException(flag);
                 }
                 break;
             default:

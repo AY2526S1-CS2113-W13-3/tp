@@ -35,7 +35,7 @@ public class DeleteCommand extends Command {
             String caseToDelete = CaseManager.deleteCase(this.caseId);
             Display.printMessage("Case deleted:", generateListTableHeaderMessage(),  caseToDelete);
         } catch (CaseNotFoundException e) {
-            Display.printMessage(e.getMessage());
+            Display.printMessage(e.getErrorMessage());
         }
     }
 

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import seedu.sgsafe.domain.casefiles.CaseManager;
 import seedu.sgsafe.utils.exceptions.CaseNotFoundException;
-import seedu.sgsafe.utils.exceptions.IncorrectFlagException;
+import seedu.sgsafe.utils.exceptions.InvalidEditFlagException;
 import seedu.sgsafe.utils.ui.Display;
 
 /**
@@ -32,14 +32,11 @@ public class EditCommand extends Command {
             String displayLine = CaseManager.editCase(caseId, newFlagValues);
             Display.printMessage("Case edited:", displayLine);
         } catch (CaseNotFoundException e) {
-            Display.printMessage(e.getMessage());
-        } catch (IncorrectFlagException e) {
-            if (e.getInvalidFlags() == null || e.getInvalidFlags().isEmpty()) {
-                Display.printMessage("No valid flags were provided to edit the case.");
-                return;
-            }
-            Display.printMessage("The case was not edited due to invalid flags: " +
-                    String.join(", ", e.getInvalidFlags()));
+            Display.printMessage(e.getErrorMessage());
+        } catch (InvalidEditFlagException e) {
+            assert e.getInvalidFlags() != null;
+            assert !e.getInvalidFlags().isEmpty();
+            Display.printMessage(e.getErrorMessage());
         }
     }
 }

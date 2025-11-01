@@ -18,7 +18,7 @@ public class ReadCommand extends Command {
         try {
             display = CaseManager.readCase(caseId);
         } catch (CaseNotFoundException e) {
-            Display.printMessage(e.getMessage());
+            Display.printMessage(e.getErrorMessage());
         }
         if (display != null) {
             Display.printMessage(display);

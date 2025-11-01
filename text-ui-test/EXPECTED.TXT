@@ -90,7 +90,8 @@
 	Example: edit 000001 --location home --date 2024-01-01
 	____________________________________________________________
 	____________________________________________________________
-	The case was not edited due to invalid flags: food
+	The case was not edited due to invalid flag(s): food
+	Please see which flags can be used by typing: edit 000001
 	____________________________________________________________
 	____________________________________________________________
 	Your close command format is incorrect.

@@ -26,7 +26,7 @@ public class OpenCommand extends Command {
             String displayLine = CaseManager.openCase(caseId);
             Display.printMessage("Case reopened:", displayLine);
         } catch (CaseNotFoundException e) {
-            Display.printMessage(e.getMessage());
+            Display.printMessage(e.getErrorMessage());
         }
     }
 }
